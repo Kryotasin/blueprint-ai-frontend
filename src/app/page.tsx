@@ -1,8 +1,5 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import AuthWrapper from '@/components/AuthWrapper';
 
-export default function Home() {
-  return (
-    <>Test</>
-  );
+export default function HomePage() {
+  return <AuthWrapper />;
 }
