@@ -24,7 +24,8 @@ npm run lint
 - **Next.js 15.4.4** with App Router and Turbopack dev mode
 - **React 19** with TypeScript
 - **Redux Toolkit** for state management
-- **Radix UI** components and themes
+- **Tailwind CSS** with shadcn/ui component system
+- **Roboto** font family via Google Fonts
 - **Axios** with custom interceptors for API calls
 
 ### State Management Architecture
@@ -68,11 +69,20 @@ Global TypeScript interfaces in `type.d.ts`:
 - **Store**: Redux slices and configuration in `src/store/`
 - **Types**: Global type definitions in root `type.d.ts`
 
+### Design System
+- **Color Palette**: Enterprise-friendly neutral grays (won't interfere with colorful content)
+- **Typography**: Roboto font family with proper web font loading
+- **Spacing**: 4px-based scale (4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96px)
+- **Breakpoints**: xs(475px), sm(640px), md(768px), lg(1024px), xl(1280px), 2xl(1536px)
+- **Components**: shadcn/ui foundation with CSS variables and Tailwind utilities
+- **Utilities**: `cn()` helper function for conditional class merging
+
 ### Development Notes
 - **Path Aliases**: `@/*` maps to `src/*` in tsconfig.json
 - **ESLint**: Next.js core web vitals and TypeScript rules
 - **Environment**: Hardcoded localhost URLs should be replaced with environment variables
 - **Error Handling**: Uses Redux for state-based error management
+- **Styling**: Use Tailwind classes and shadcn/ui components for consistent design
 
 ### API Dependencies
 Requires backend server running on `localhost:8080` with these endpoints:
