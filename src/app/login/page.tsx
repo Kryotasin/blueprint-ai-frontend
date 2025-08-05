@@ -1,36 +1,17 @@
 'use client';
-import { useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '@/store/hooks';
-import { loginStart, loginSuccess, loginFailure } from '@/store/authSlice';
+import { useAppSelector } from '@/store/hooks';
 import { authService } from '@/services/auth';
 
 export default function LoginPage() {
     const { isAuthenticated, loading, error } = useAppSelector((state) => state.auth);
-    const dispatch = useAppDispatch();
-
-    // Check if already authenticated on page load
-    useEffect(() => {
-        const checkAuth = async () => {
-            try {
-                dispatch(loginStart());
-                const userData = await authService.checkAuth();
-                dispatch(loginSuccess(userData.user));
-            } catch (err) {
-                dispatch(loginFailure('Not authenticated'));
-            }
-        };
-
-        checkAuth();
-    }, [dispatch]);
 
     const handleFigmaLogin = () => {
         authService.loginWithFigma();
     };
 
     if (isAuthenticated) {
-        // Redirect to main app
         window.location.href = '/';
-        return <div>Redirecting...</div>;
+        return <div className="min-h-screen flex items-center justify-center">Redirecting to dashboard...</div>;
     }
 
     return (

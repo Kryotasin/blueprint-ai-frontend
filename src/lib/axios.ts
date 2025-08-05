@@ -20,7 +20,10 @@ api.interceptors.response.use(
     },
     (error) => {
         if (error.response?.status === 401) {
-            window.location.href = '/login';
+            // Only redirect to login if not already on login page to prevent infinite loops
+            if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }

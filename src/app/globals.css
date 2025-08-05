@@ -5,7 +5,7 @@
 
 @layer base {
   :root {
-    /* Enterprise-friendly neutral color palette */
+    --radius: 0.5rem;
     --background: 0 0% 100%;
     --foreground: 224 14% 10%;
     --card: 0 0% 100%;
@@ -25,7 +25,6 @@
     --border: 220 13% 91%;
     --input: 220 13% 91%;
     --ring: 224 14% 10%;
-    --radius: 0.5rem;
   }
 
   * {
@@ -34,6 +33,29 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Roboto', ui-sans-serif, system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+.dark {
+  --background: 224 14% 10%;
+  --foreground: 210 20% 98%;
+  --card: 220 13% 18%;
+  --card-foreground: 210 20% 98%;
+  --popover: 220 13% 18%;
+  --popover-foreground: 210 20% 98%;
+  --primary: 210 20% 98%;
+  --primary-foreground: 220 13% 18%;
+  --secondary: 215 27% 32%;
+  --secondary-foreground: 210 20% 98%;
+  --muted: 215 27% 32%;
+  --muted-foreground: 217 10% 64%;
+  --accent: 215 27% 32%;
+  --accent-foreground: 210 20% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 20% 98%;
+  --border: 215 27% 32%;
+  --input: 215 27% 32%;
+  --ring: 217 10% 64%;
 }

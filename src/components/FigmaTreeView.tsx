@@ -35,20 +35,36 @@ function TreeNode({ node, level, onSelect }: TreeNodeProps) {
     return (
         <div>
             <div
-                className={`flex items-center py-1 px-2 cursor-pointer hover:bg-gray-100 ${isSelected ? 'bg-blue-100 text-blue-800' : ''
-                    }`}
-                style={{ paddingLeft: `${level * 20 + 8}px` }}
+                className={`flex items-center py-2 px-3 cursor-pointer hover:bg-accent transition-colors ${
+                    isSelected ? 'bg-accent text-accent-foreground' : ''
+                }`}
+                style={{ paddingLeft: `${level * 16 + 12}px` }}
                 onClick={handleClick}
             >
                 {node.children && node.children.length > 0 && (
-                    <span className="mr-2 text-xs">
+                    <span className="mr-2 text-xs text-muted-foreground">
                         {isExpanded ? '▼' : '▶'}
                     </span>
                 )}
-                <span className="text-xs text-gray-500 mr-2 uppercase">
+                
+                {/* Icon based on node type */}
+                <span className="mr-2 text-xs">
+                    {node.type === 'COMPONENT' && '🧩'}
+                    {node.type === 'INSTANCE' && '📦'}
+                    {node.type === 'FRAME' && '🖼️'}
+                    {node.type === 'GROUP' && '📁'}
+                    {node.type === 'CANVAS' && '🎨'}
+                    {node.type === 'DOCUMENT' && '📄'}
+                </span>
+                
+                <span className={`text-xs mr-2 uppercase font-medium ${
+                    node.type === 'COMPONENT' || node.type === 'INSTANCE' 
+                        ? 'text-blue-600' 
+                        : 'text-muted-foreground'
+                }`}>
                     {node.type}
                 </span>
-                <span className="text-sm">{node.name}</span>
+                <span className="text-sm truncate">{node.name}</span>
             </div>
 
             {isExpanded && node.children && (
@@ -111,44 +127,51 @@ export default function FigmaTreeView() {
     }
 
     return (
-        <div className="bg-white rounded-lg shadow p-4">
-            <h2 className="text-lg font-semibold mb-4">Figma File Structure</h2>
-
-            {/* File input for now */}
-            <div className="mb-4">
-                <input
-                    value={url}
-                    onChange={(e: any) => {
-                        setURL(e.target.value)
-                    }}
-                    type="url"
-                    placeholder="Enter Figma file URL..."
-                />
-                <button className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-md text-sm hover:bg-blue-700" onClick={loadFileFileByUrl}>
-                    Load File
-                </button>
+        <div className="h-full flex flex-col">
+            {/* File input */}
+            <div className="p-4 border-b border-border">
+                <div className="space-y-3">
+                    <input
+                        value={url}
+                        onChange={(e: any) => {
+                            setURL(e.target.value)
+                        }}
+                        type="url"
+                        placeholder="Enter Figma file URL..."
+                        className="w-full px-3 py-2 text-sm border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-ring"
+                    />
+                    <button 
+                        className="w-full px-3 py-2 bg-primary text-primary-foreground rounded-md text-sm hover:bg-primary/90 transition-colors" 
+                        onClick={loadFileFileByUrl}
+                    >
+                        Load File
+                    </button>
+                </div>
             </div>
 
             {/* Tree view */}
-            {
-                fileTree && Object.keys(fileTree).length > 0 ?
-                    (
-                        <TreeNode
-                            node={fileTree}
-                            level={0}
-                            onSelect={handleNodeSelect}
-                        />
-                    )
-                    :
-                    ''
-            }
+            <div className="flex-1 overflow-auto">
+                {fileTree && Object.keys(fileTree).length > 0 ? (
+                    <TreeNode
+                        node={fileTree}
+                        level={0}
+                        onSelect={handleNodeSelect}
+                    />
+                ) : (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                        No file loaded
+                    </div>
+                )}
+            </div>
 
             {/* Selection display */}
-            <div className="mt-4 text-sm text-gray-600">
-                <div>Selected File: {selectedFile || 'None'}</div>
-                <div>Selected Page: {selectedPage || 'None'}</div>
-                <div>Selected Component: {selectedComponent || 'None'}</div>
-            </div>
+            {(selectedFile || selectedPage || selectedComponent) && (
+                <div className="p-4 border-t border-border text-xs text-muted-foreground space-y-1">
+                    {selectedFile && <div>File: {selectedFile}</div>}
+                    {selectedPage && <div>Page: {selectedPage}</div>}
+                    {selectedComponent && <div>Component: {selectedComponent}</div>}
+                </div>
+            )}
         </div>
     );
 }
